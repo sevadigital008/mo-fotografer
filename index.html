@@ -53,19 +53,65 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <!-- Main Container -->
-    <div id="app" class="max-w-4xl mx-auto p-4">
+    <!-- Auth View (Login/Register) -->
+    <div id="auth-view" class="max-w-md mx-auto p-4 mt-10">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+            <!-- Login Form -->
+            <form id="login-form">
+                <h2 class="text-2xl font-bold text-center mb-6">Login Dasbor</h2>
+                <div id="login-error" class="hidden bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-sm"></div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="login-email" class="mt-1 block w-full input-field" required>
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="login-password" class="mt-1 block w-full input-field" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Login</button>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-4">
+                    Belum punya akun? <a href="#" id="show-register" class="font-medium text-blue-600 hover:text-blue-500">Daftar di sini</a>
+                </p>
+            </form>
 
+            <!-- Register Form (Hidden by default) -->
+            <form id="register-form" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">Buat Akun Baru</h2>
+                <div id="register-error" class="hidden bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-sm"></div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="register-email" class="mt-1 block w-full input-field" required>
+                    </div>
+                    <div>
+                        <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="register-password" class="mt-1 block w-full input-field" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Daftar</button>
+                </div>
+                <p class="text-center text-sm text-gray-600 mt-4">
+                    Sudah punya akun? <a href="#" id="show-login" class="font-medium text-blue-600 hover:text-blue-500">Login di sini</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Container (Hidden by default) -->
+    <div id="app" class="max-w-4xl mx-auto p-4 hidden">
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-900">Dasbor Manajemen Studio</h1>
-            <p class="text-gray-600">Pantau semua job, progres, dan pembayaran.</p>
+            <div class="flex justify-center items-center gap-4 mt-2">
+                <p id="user-email" class="text-gray-600"></p>
+                <button id="logout-button" class="bg-red-500 hover:bg-red-600 text-white text-sm font-bold py-1 px-3 rounded-lg">Logout</button>
+            </div>
         </header>
 
         <!-- Main Dashboard View -->
         <div id="event-list-view" class="view">
             <div id="summary-section" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
-
             <div class="flex flex-wrap gap-2 justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Daftar Semua Job</h2>
                 <div class="flex gap-2">
@@ -93,56 +139,35 @@
             <h2 id="form-title" class="text-2xl font-bold mb-4"></h2>
             <form id="event-form" class="bg-white p-6 rounded-2xl shadow-lg space-y-2">
                 <input type="hidden" id="form-event-id">
-                
                 <div class="border-b pb-4">
                     <h3 class="text-lg font-semibold">Informasi Dasar</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <div>
                             <label for="form-event-type" class="block text-sm font-medium text-gray-700">Jenis Acara</label>
                             <select id="form-event-type" class="mt-1 block w-full input-field" required>
-                                <option>Pernikahan</option>
-                                <option>Khitanan</option>
-                                <option>Ulang Tahun</option>
-                                <option>Wisuda</option>
-                                <option value="Lainnya">Lainnya...</option>
+                                <option>Pernikahan</option><option>Khitanan</option><option>Ulang Tahun</option><option>Wisuda</option><option value="Lainnya">Lainnya...</option>
                             </select>
                         </div>
-                        <div id="custom-event-name-wrapper" class="hidden">
-                            <label for="form-event-name-custom" class="block text-sm font-medium text-gray-700">Nama Acara Custom</label>
-                            <input type="text" id="form-event-name-custom" class="mt-1 block w-full input-field">
-                        </div>
+                        <div id="custom-event-name-wrapper" class="hidden"><label for="form-event-name-custom" class="block text-sm font-medium text-gray-700">Nama Acara Custom</label><input type="text" id="form-event-name-custom" class="mt-1 block w-full input-field"></div>
                         <div><label for="form-event-client" class="block text-sm font-medium text-gray-700">Nama Klien</label><input type="text" id="form-event-client" class="mt-1 block w-full input-field" required></div>
                         <div><label for="form-event-date" class="block text-sm font-medium text-gray-700">Tanggal</label><input type="date" id="form-event-date" class="mt-1 block w-full input-field" required></div>
                         <div><label for="form-event-location" class="block text-sm font-medium text-gray-700">Lokasi</label><input type="text" id="form-event-location" class="mt-1 block w-full input-field" required></div>
                     </div>
                 </div>
-
-                <details>
-                    <summary class="form-section-title">Paket & Pembayaran</summary>
+                <details><summary class="form-section-title">Paket & Pembayaran</summary>
                     <div class="p-4 pt-2 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label for="form-package-select" class="block text-sm font-medium text-gray-700">Pilih Paket</label><select id="form-package-select" class="mt-1 block w-full input-field"><option value="custom">-- Paket Custom --</option></select></div>
-                             <div>
-                                <label for="form-payment-status" class="block text-sm font-medium text-gray-700">Status Pembayaran</label>
-                                <select id="form-payment-status" class="mt-1 block w-full input-field" required>
-                                    <option>Belum Bayar</option>
-                                    <option>DP Masuk</option>
-                                    <option>Lunas</option>
-                                </select>
-                            </div>
+                             <div><label for="form-payment-status" class="block text-sm font-medium text-gray-700">Status Pembayaran</label><select id="form-payment-status" class="mt-1 block w-full input-field" required><option>Belum Bayar</option><option>DP Masuk</option><option>Lunas</option></select></div>
                         </div>
                         <div><label for="form-package-name" class="block text-sm font-medium text-gray-700">Nama Paket</label><input type="text" id="form-package-name" class="mt-1 block w-full input-field" required></div>
                         <div><label for="form-package-price" class="block text-sm font-medium text-gray-700">Harga Paket (Rp)</label><input type="number" id="form-package-price" class="mt-1 block w-full input-field" required></div>
                         <div><label for="form-package-details" class="block text-sm font-medium text-gray-700">Detail Paket</label><textarea id="form-package-details" rows="4" class="mt-1 block w-full input-field"></textarea></div>
                     </div>
                 </details>
-
-                <details>
-                    <summary class="form-section-title">Sumber & Kontak</summary>
+                <details><summary class="form-section-title">Sumber & Kontak</summary>
                     <div class="p-4 pt-2">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label for="form-job-source" class="block text-sm font-medium text-gray-700">Sumber Job</label><select id="form-job-source" class="mt-1 block w-full input-field" required><option value="Klien Langsung">Klien Langsung</option><option value="Vendor">Vendor</option></select></div>
-                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="form-job-source" class="block text-sm font-medium text-gray-700">Sumber Job</label><select id="form-job-source" class="mt-1 block w-full input-field" required><option value="Klien Langsung">Klien Langsung</option><option value="Vendor">Vendor</option></select></div></div>
                         <div id="client-fields-wrapper" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <div><label for="form-client-contact" class="block text-sm font-medium text-gray-700">Kontak Person Klien</label><input type="text" id="form-client-contact" class="mt-1 block w-full input-field" placeholder="Nama kontak klien"></div>
                             <div><label for="form-client-phone" class="block text-sm font-medium text-gray-700">No. Telepon Klien</label><input type="tel" id="form-client-phone" class="mt-1 block w-full input-field" placeholder="0812..."></div>
@@ -154,9 +179,7 @@
                         </div>
                     </div>
                 </details>
-
-                <details>
-                    <summary class="form-section-title">Tim Bertugas (PIC)</summary>
+                <details><summary class="form-section-title">Tim Bertugas (PIC)</summary>
                     <div class="p-4 pt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label for="form-pic-fotografer" class="block text-sm font-medium text-gray-700">Fotografer</label><input type="text" id="form-pic-fotografer" class="mt-1 block w-full input-field" required></div>
                         <div><label for="form-pic-asisten" class="block text-sm font-medium text-gray-700">Asisten Fotografer</label><input type="text" id="form-pic-asisten" class="mt-1 block w-full input-field"></div>
@@ -165,9 +188,7 @@
                         <div><label for="form-pic-editor" class="block text-sm font-medium text-gray-700">Editor</label><input type="text" id="form-pic-editor" class="mt-1 block w-full input-field"></div>
                     </div>
                 </details>
-
-                <details>
-                    <summary class="form-section-title">Progres Pekerjaan</summary>
+                <details><summary class="form-section-title">Progres Pekerjaan</summary>
                     <div class="p-4 pt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label for="form-progress-editing" class="block text-sm font-medium text-gray-700">Status Editing</label><select id="form-progress-editing" class="mt-1 block w-full input-field"><option value="Belum Mulai">Belum Mulai</option><option value="Proses">Proses</option><option value="Selesai">Selesai</option></select></div>
                         <div><label for="form-progress-printStatus" class="block text-sm font-medium text-gray-700">Status Cetak</label><select id="form-progress-printStatus" class="mt-1 block w-full input-field"><option value="Tidak Ada">Tidak Ada</option><option value="Belum Masuk">Belum Masuk</option><option value="Proses Cetak">Proses Cetak</option><option value="Selesai Cetak">Selesai Cetak</option></select></div>
@@ -176,20 +197,13 @@
                         <div><label for="form-progress-album" class="block text-sm font-medium text-gray-700">Status Album</label><select id="form-progress-album" class="mt-1 block w-full input-field"><option value="Tidak Ada">Tidak Ada</option><option value="Belum Jadi">Belum Jadi</option><option value="Sudah Jadi">Sudah Jadi (Final)</option></select></div>
                     </div>
                 </details>
-
-                <div class="flex justify-end space-x-3 pt-4 mt-4 border-t">
-                    <button type="button" id="cancel-form-button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Batal</button>
-                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Simpan Job</button>
-                </div>
+                <div class="flex justify-end space-x-3 pt-4 mt-4 border-t"><button type="button" id="cancel-form-button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Batal</button><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Simpan Job</button></div>
             </form>
         </div>
 
         <!-- Package Management View -->
         <div id="package-management-view" class="view hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">Kelola Paket Layanan</h2>
-                <button id="back-to-dashboard-from-packages" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">Kembali ke Dasbor</button>
-            </div>
+            <div class="flex justify-between items-center mb-4"><h2 class="text-xl font-semibold">Kelola Paket Layanan</h2><button id="back-to-dashboard-from-packages" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg">Kembali ke Dasbor</button></div>
             <form id="package-form" class="bg-white p-6 rounded-xl shadow-md mb-6">
                 <input type="hidden" id="package-form-id">
                 <h3 id="package-form-title" class="text-lg font-semibold mb-4">Tambah Paket Baru</h3>
@@ -198,10 +212,7 @@
                     <div><label for="package-form-price" class="block text-sm font-medium text-gray-700">Harga (Rp)</label><input type="number" id="package-form-price" class="mt-1 block w-full input-field" required></div>
                     <div class="md:col-span-2"><label for="package-form-details" class="block text-sm font-medium text-gray-700">Detail Paket</label><textarea id="package-form-details" rows="3" class="mt-1 block w-full input-field" required></textarea></div>
                 </div>
-                <div class="flex justify-end gap-2 mt-4">
-                    <button type="button" id="cancel-package-edit" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg hidden">Batal Edit</button>
-                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan Paket</button>
-                </div>
+                <div class="flex justify-end gap-2 mt-4"><button type="button" id="cancel-package-edit" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg hidden">Batal Edit</button><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan Paket</button></div>
             </form>
             <div id="package-list-container" class="space-y-3"></div>
         </div>
@@ -211,9 +222,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
         import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
-        // --- KONFIGURASI FIREBASE ANDA ---
         const firebaseConfig = {
             apiKey: "AIzaSyCK2JhYshfcnw0GbQlyuVmJrXKrq8hy5Nc",
             authDomain: "gen-lang-client-0958314608.firebaseapp.com",
@@ -224,50 +234,30 @@
             measurementId: "G-NRB956GXL9"
         };
         
-        // --- DATA STATE ---
         let packages = [];
         let events = [];
-
         let app, db, auth, analytics;
         let isFirebaseInitialized = false;
         
-        // --- FALLBACK FOR LOCAL DEVELOPMENT ---
-        function runWithLocalData() {
-            console.log("Running with local data.");
-            // Initial local data
-            packages = [
-                { id: 1, name: "Paket Silver", price: 3500000, details: "1 Fotografer, 1 Album Kolase 20x30, 1 Cetak 16R + Frame" },
-                { id: 2, name: "Paket Gold", price: 5000000, details: "1 Fotografer, 1 Videografer, 1 Album Kolase 20x30, 1 Cetak 20R + Frame, Video Cinematic 1 menit" }
-            ];
-            events = [
-                { id: 1, name: "Pernikahan", client: "Keluarga Haryono (Lokal)", date: "2025-08-10", location: "Gedung Bidakara, Jakarta", paymentStatus: "DP Masuk", packageInfo: packages[1], jobSource: "Vendor", vendorInfo: { name: "WO Bahagia", contact: "Rina", phone: "08123" }, clientInfo: {}, pic: { fotografer: "Doni" }, progress: { editing: "Proses", album: "Belum Jadi" } }
-            ];
-            renderEventList();
-            renderPackageList();
-            populatePackageDropdown();
-        }
-
         try {
-            if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-                throw new Error("Firebase config is not set. Please replace placeholder values.");
-            }
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
             analytics = getAnalytics(app);
             isFirebaseInitialized = true;
         } catch (error) {
-            console.error("Firebase initialization failed. Using local data. Error:", error.message);
-            document.getElementById('app').innerHTML = `
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
-                    <p class="font-bold">Koneksi Database Gagal</p>
-                    <p>Aplikasi tidak dapat terhubung ke database. Silakan periksa konfigurasi Firebase Anda di dalam kode. Aplikasi akan berjalan menggunakan data lokal (data tidak akan tersimpan).</p>
-                </div>
-            ` + document.getElementById('app').innerHTML;
-            runWithLocalData();
+            console.error("Firebase initialization failed:", error.message);
         }
 
-        // --- DOM ELEMENTS ---
+        const authView = document.getElementById('auth-view');
+        const appView = document.getElementById('app');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const logoutButton = document.getElementById('logout-button');
+        const userEmailDisplay = document.getElementById('user-email');
+
         const views = { list: document.getElementById('event-list-view'), detail: document.getElementById('event-detail-view'), form: document.getElementById('event-form-view'), packages: document.getElementById('package-management-view') };
         const eventListContainer = document.getElementById('event-list');
         const detailContentWrapper = document.getElementById('detail-content-wrapper');
@@ -283,18 +273,64 @@
         const customEventNameInput = document.getElementById('form-event-name-custom');
 
         // --- AUTHENTICATION ---
-        if (isFirebaseInitialized) {
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    console.log("User is signed in:", user.uid);
-                    initApp(user.uid);
-                } else {
-                    signInAnonymously(auth).catch(error => {
-                        console.error("Anonymous sign-in failed:", error);
-                    });
-                }
-            });
-        }
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                authView.classList.add('hidden');
+                appView.classList.remove('hidden');
+                userEmailDisplay.textContent = user.email;
+                initApp(user.uid);
+            } else {
+                authView.classList.remove('hidden');
+                appView.classList.add('hidden');
+                userEmailDisplay.textContent = '';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                errorDiv.classList.add('hidden');
+            } catch (error) {
+                errorDiv.textContent = "Email atau password salah.";
+                errorDiv.classList.remove('hidden');
+                console.error("Login error:", error);
+            }
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const errorDiv = document.getElementById('register-error');
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                errorDiv.classList.add('hidden');
+            } catch (error) {
+                errorDiv.textContent = "Gagal mendaftar. Email mungkin sudah digunakan.";
+                errorDiv.classList.remove('hidden');
+                console.error("Register error:", error);
+            }
+        });
+
+        logoutButton.addEventListener('click', async () => {
+            await signOut(auth);
+        });
+
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+        });
 
         // --- INITIALIZE APP WITH DATABASE ---
         function initApp(userId) {
@@ -302,22 +338,11 @@
                 console.error("Firestore snapshot error:", error);
                 if (error.code === 'permission-denied') {
                     const errorDivId = 'firestore-error-message';
-                    if (document.getElementById(errorDivId)) return; // Don't show multiple errors
-                    
+                    if (document.getElementById(errorDivId)) return;
                     const errorDiv = document.createElement('div');
                     errorDiv.id = errorDivId;
                     errorDiv.className = "bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-lg";
-                    errorDiv.setAttribute('role', 'alert');
-                    errorDiv.innerHTML = `
-                        <p class="font-bold">Akses Database Ditolak (Permission Denied)</p>
-                        <p>Ini adalah masalah umum pada proyek Firebase baru. Untuk memperbaikinya:</p>
-                        <ol class="list-decimal list-inside mt-2 text-sm">
-                            <li>Buka <strong>Firebase Console</strong> > <strong>Firestore Database</strong>.</li>
-                            <li>Klik tab <strong>Rules</strong>.</li>
-                            <li>Ganti aturan yang ada dengan: <code>service cloud.firestore { match /databases/{database}/documents { match /{document=**} { allow read, write: if true; } } }</code></li>
-                            <li>Klik <strong>Publish</strong>. Lalu refresh halaman ini.</li>
-                        </ol>
-                    `;
+                    errorDiv.innerHTML = `<p class="font-bold">Akses Database Ditolak (Permission Denied)</p><p>Untuk memperbaikinya:</p><ol class="list-decimal list-inside mt-2 text-sm"><li>Buka <strong>Firebase Console</strong> > <strong>Firestore Database</strong>.</li><li>Klik tab <strong>Rules</strong>.</li><li>Ganti aturan yang ada dengan: <code>rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { match /users/{userId}/{document=**} { allow read, write: if request.auth != null && request.auth.uid == userId; } } }</code></li><li>Klik <strong>Publish</strong>. Lalu refresh halaman ini.</li></ol>`;
                     document.getElementById('app').prepend(errorDiv);
                 }
             };
@@ -337,404 +362,37 @@
             }, errorHandler);
         }
 
-        // --- HELPER FUNCTIONS ---
-        function switchView(viewName) {
-            Object.values(views).forEach(view => view.classList.add('hidden'));
-            views[viewName].classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-        
-        function formatDateForDisplay(dateString) {
-            if (!dateString) return 'N/A';
-            const date = new Date(dateString);
-            return new Date(date.getTime() + (date.getTimezoneOffset() * 60000)).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-        }
+        // --- HELPER & RENDER FUNCTIONS (omitted for brevity, they are the same as before) ---
+        function switchView(viewName) { Object.values(views).forEach(v => v.classList.add('hidden')); views[viewName].classList.remove('hidden'); window.scrollTo(0,0); }
+        function formatDateForDisplay(d) { if (!d) return 'N/A'; const date = new Date(d); return new Date(date.getTime() + (date.getTimezoneOffset() * 60000)).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }); }
+        function formatCurrency(n) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n || 0); }
+        const paymentStatusConfig = { 'Belum Bayar': { label: 'Belum Bayar', color: 'bg-red-100 text-red-800' }, 'DP Masuk': { label: 'DP Masuk', color: 'bg-yellow-100 text-yellow-800' }, 'Lunas': { label: 'Lunas', color: 'bg-green-100 text-green-800' } };
+        function getOverallStatus(p) { if (!p) return { label: 'N/A', color: 'bg-gray-200' }; if (p.album === 'Sudah Jadi') return { label: 'Selesai', color: 'bg-green-100 text-green-800' }; if (p.pickup === 'Sudah Diambil') return { label: 'Siap Jadi Album', color: 'bg-teal-100 text-teal-800' }; if (p.printStatus === 'Selesai Cetak') return { label: 'Siap Diambil', color: 'bg-cyan-100 text-cyan-800' }; if (p.printStatus === 'Proses Cetak') return { label: 'Proses Cetak', color: 'bg-sky-100 text-sky-800' }; if (p.editing === 'Selesai') return { label: 'Siap Cetak', color: 'bg-indigo-100 text-indigo-800' }; if (p.editing === 'Proses') return { label: 'Editing', color: 'bg-purple-100 text-purple-800' }; const eventDate = new Date(this.date); const today = new Date(); today.setHours(0,0,0,0); if(eventDate < today) return { label: 'Menunggu Editing', color: 'bg-yellow-100 text-yellow-800' }; return { label: 'Dijadwalkan', color: 'bg-blue-100 text-blue-800' }; }
+        function renderDashboardSummary() { const sc = document.getElementById('summary-section'); const tj = events.length; const tr = events.reduce((s, e) => s + (e.packageInfo.price || 0), 0); const trec = events.filter(e => e.paymentStatus !== 'Lunas').reduce((s, e) => { const p = e.packageInfo.price || 0; return s + (e.paymentStatus === 'DP Masuk' ? p / 2 : p); }, 0); const ip = events.filter(e => e.progress && (e.progress.editing === 'Proses' || e.progress.printStatus === 'Proses Cetak')).length; sc.innerHTML = `<div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Job</p><p class="text-2xl font-bold">${tj}</p></div><div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">In Progress</p><p class="text-2xl font-bold">${ip}</p></div><div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Piutang</p><p class="text-xl font-bold">${formatCurrency(trec)}</p></div><div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Proyek</p><p class="text-xl font-bold">${formatCurrency(tr)}</p></div>`; }
+        function renderEventList() { renderDashboardSummary(); eventListContainer.innerHTML = ''; if (events.length === 0) { eventListContainer.innerHTML = `<p class="text-center text-gray-500 py-8">Belum ada job.</p>`; return; } const dateCounts = events.reduce((acc, event) => { acc[event.date] = (acc[event.date] || 0) + 1; return acc; }, {}); events.sort((a, b) => new Date(a.date) - new Date(b.date)); events.forEach(event => { const status = getOverallStatus.call(event, event.progress); const paymentStatus = paymentStatusConfig[event.paymentStatus] || { label: 'N/A', color: 'bg-gray-200' }; let conflictBadge = ''; if (dateCounts[event.date] > 1) { conflictBadge = `<div class="mt-2"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-full">Jadwal Bentrok</span></div>`; } const card = document.createElement('div'); card.className = 'bg-white p-5 rounded-xl shadow-md'; card.innerHTML = `<div class="flex justify-between items-start mb-3"><div class="cursor-pointer flex-grow" onclick="showEventDetail('${event.id}')"><h3 class="font-bold text-lg text-gray-800">${event.name}</h3><p class="text-sm text-gray-600">${event.client}</p><p class="text-sm font-semibold text-blue-600 mt-2">${event.packageInfo.name} - ${formatCurrency(event.packageInfo.price)}</p></div><div class="text-right flex-shrink-0 flex flex-col items-end"><span class="text-sm font-semibold text-gray-700">${formatDateForDisplay(event.date)}</span><div class="mt-2"><span class="text-xs font-medium px-2.5 py-1 rounded-full ${status.color}">${status.label}</span></div><div class="mt-2"><span class="text-xs font-medium px-2.5 py-1 rounded-full ${paymentStatus.color}">${paymentStatus.label}</span></div>${conflictBadge}</div></div><div class="flex justify-end space-x-2 border-t pt-3 mt-3"><button onclick="openForm('${event.id}')" class="text-sm bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded-md">Edit</button><button onclick="deleteEvent('${event.id}')" class="text-sm bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md">Hapus</button></div>`; eventListContainer.appendChild(card); }); }
+        function renderEventDetail(event) { let sourceInfo; if (event.jobSource === 'Vendor') { sourceInfo = `Vendor: ${event.vendorInfo.name} (Kontak: ${event.vendorInfo.contact} - ${event.vendorInfo.phone})`; } else { sourceInfo = `Klien Langsung (Kontak: ${event.clientInfo.contact} - ${event.clientInfo.phone})`; } const status = getOverallStatus.call(event, event.progress); const paymentStatus = paymentStatusConfig[event.paymentStatus] || { label: 'N/A', color: 'bg-gray-200' }; let teamHtml = Object.entries(event.pic).map(([role, name]) => name ? `<li class="capitalize"><strong>${role}:</strong> ${name}</li>` : '').join(''); detailContentWrapper.innerHTML = `<div class="flex justify-between items-start"><div><h2 class="text-2xl font-bold mb-1">${event.name}</h2><p class="text-gray-600 mb-2">Klien: ${event.client}</p></div><div class="flex flex-col items-end gap-2"><span class="text-xs font-medium px-2.5 py-1 rounded-full ${status.color}">${status.label}</span><span class="text-xs font-medium px-2.5 py-1 rounded-full ${paymentStatus.color}">${paymentStatus.label}</span></div></div><p class="text-sm text-gray-500 mb-6">Lokasi: ${event.location}</p><div class="bg-blue-50 p-4 rounded-lg mb-6"><h4 class="font-semibold text-blue-800">Paket: ${event.packageInfo.name}</h4><p class="font-bold text-xl text-blue-900">${formatCurrency(event.packageInfo.price)}</p><p class="text-sm text-blue-700 mt-1">${event.packageInfo.details}</p></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h4 class="font-semibold mb-2">Kontak</h4><p class="text-sm">${sourceInfo}</p></div><div><h4 class="font-semibold mb-2">Tim Bertugas</h4><ul class="list-disc list-inside text-sm space-y-1">${teamHtml}</ul></div><div><h4 class="font-semibold mb-2">Progres Pekerjaan</h4><ul class="list-disc list-inside text-sm space-y-1"><li><strong>Editing:</strong> ${event.progress.editing}</li><li><strong>Cetak:</strong> ${event.progress.printStatus} (di ${event.progress.printStudio || 'N/A'})</li><li><strong>Pengambilan:</strong> ${event.progress.pickup}</li><li><strong>Album Final:</strong> ${event.progress.album}</li></ul></div></div>`; }
+        function populatePackageDropdown() { packageSelect.innerHTML = '<option value="custom">-- Paket Custom --</option>'; packages.forEach(pkg => { const option = document.createElement('option'); option.value = pkg.id; option.textContent = `${pkg.name} (${formatCurrency(pkg.price)})`; packageSelect.appendChild(option); }); }
+        function openForm(eventId = null) { eventForm.reset(); populatePackageDropdown(); document.querySelectorAll('#event-form details').forEach(d => d.removeAttribute('open')); if (eventId) { const event = events.find(e => e.id === eventId); document.getElementById('form-title').textContent = 'Edit Job'; document.getElementById('form-event-id').value = event.id; const predefined = Array.from(eventTypeSelect.options).map(o => o.value); if (predefined.includes(event.name)) { eventTypeSelect.value = event.name; customEventNameInput.value = ''; } else { eventTypeSelect.value = 'Lainnya'; customEventNameInput.value = event.name; } eventTypeSelect.dispatchEvent(new Event('change')); document.getElementById('form-event-client').value = event.client; document.getElementById('form-event-date').value = event.date; document.getElementById('form-event-location').value = event.location; document.getElementById('form-payment-status').value = event.paymentStatus; const existingPkg = packages.find(p => p.name === event.packageInfo.name && p.price === event.packageInfo.price); packageSelect.value = existingPkg ? existingPkg.id : 'custom'; packageSelect.dispatchEvent(new Event('change')); document.getElementById('form-package-name').value = event.packageInfo.name; document.getElementById('form-package-price').value = event.packageInfo.price; document.getElementById('form-package-details').value = event.packageInfo.details; document.getElementById('form-job-source').value = event.jobSource; document.getElementById('form-vendor-name').value = event.vendorInfo?.name || ''; document.getElementById('form-vendor-contact').value = event.vendorInfo?.contact || ''; document.getElementById('form-vendor-phone').value = event.vendorInfo?.phone || ''; document.getElementById('form-client-contact').value = event.clientInfo?.contact || ''; document.getElementById('form-client-phone').value = event.clientInfo?.phone || ''; for (const role in event.pic) document.getElementById(`form-pic-${role}`).value = event.pic[role]; for (const key in event.progress) document.getElementById(`form-progress-${key}`).value = event.progress[key]; } else { document.getElementById('form-title').textContent = 'Tambah Job Baru'; document.getElementById('form-event-id').value = ''; packageSelect.dispatchEvent(new Event('change')); eventTypeSelect.dispatchEvent(new Event('change')); } jobSourceSelect.dispatchEvent(new Event('change')); switchView('form'); }
+        async function saveEvent(e) { e.preventDefault(); if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.'); const userId = auth.currentUser.uid; const id = document.getElementById('form-event-id').value; let eventName = eventTypeSelect.value; if (eventName === 'Lainnya') eventName = customEventNameInput.value.trim(); const newEventData = { name: eventName, client: document.getElementById('form-event-client').value, date: document.getElementById('form-event-date').value, location: document.getElementById('form-event-location').value, paymentStatus: document.getElementById('form-payment-status').value, packageInfo: { name: document.getElementById('form-package-name').value, price: parseInt(document.getElementById('form-package-price').value), details: document.getElementById('form-package-details').value }, jobSource: document.getElementById('form-job-source').value, vendorInfo: { name: document.getElementById('form-vendor-name').value, contact: document.getElementById('form-vendor-contact').value, phone: document.getElementById('form-vendor-phone').value }, clientInfo: { contact: document.getElementById('form-client-contact').value, phone: document.getElementById('form-client-phone').value }, pic: { fotografer: document.getElementById('form-pic-fotografer').value, asisten: document.getElementById('form-pic-asisten').value, videografer: document.getElementById('form-pic-videografer').value, cinematografer: document.getElementById('form-pic-cinematografer').value, editor: document.getElementById('form-pic-editor').value }, progress: { editing: document.getElementById('form-progress-editing').value, printStatus: document.getElementById('form-progress-printStatus').value, printStudio: document.getElementById('form-progress-printStudio').value, pickup: document.getElementById('form-progress-pickup').value, album: document.getElementById('form-progress-album').value } }; try { if (id) { await updateDoc(doc(db, `users/${userId}/events`, id), newEventData); } else { await addDoc(collection(db, `users/${userId}/events`), newEventData); } switchView('list'); } catch (error) { console.error("Error saving event: ", error); alert("Gagal menyimpan data."); } }
+        async function deleteEvent(eventId) { if (confirm('Yakin hapus job ini?')) { if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.'); const userId = auth.currentUser.uid; try { await deleteDoc(doc(db, `users/${userId}/events`, eventId)); } catch (error) { console.error("Error deleting event: ", error); alert("Gagal menghapus data."); } } }
+        function showEventDetail(eventId) { const event = events.find(e => e.id === eventId); if (!event) return; renderEventDetail(event); switchView('detail'); }
+        function renderPackageList() { packageListContainer.innerHTML = ''; packages.forEach(pkg => { const item = document.createElement('div'); item.className = 'bg-gray-50 p-4 rounded-lg flex justify-between items-center'; item.innerHTML = `<div><p class="font-semibold">${pkg.name} - ${formatCurrency(pkg.price)}</p><p class="text-sm text-gray-600">${pkg.details}</p></div><div class="flex gap-2"><button onclick="editPackage('${pkg.id}')" class="text-sm bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded-md">Edit</button><button onclick="deletePackage('${pkg.id}')" class="text-sm bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md">Hapus</button></div>`; packageListContainer.appendChild(item); }); }
+        async function savePackage(e) { e.preventDefault(); if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.'); const userId = auth.currentUser.uid; const id = document.getElementById('package-form-id').value; const newPackageData = { name: document.getElementById('package-form-name').value, price: parseInt(document.getElementById('package-form-price').value), details: document.getElementById('package-form-details').value }; try { if (id) { await updateDoc(doc(db, `users/${userId}/packages`, id), newPackageData); } else { await addDoc(collection(db, `users/${userId}/packages`), newPackageData); } packageForm.reset(); document.getElementById('package-form-title').textContent = 'Tambah Paket Baru'; document.getElementById('cancel-package-edit').classList.add('hidden'); } catch (error) { console.error("Error saving package: ", error); alert("Gagal menyimpan paket."); } }
+        function editPackage(id) { const pkg = packages.find(p => p.id === id); document.getElementById('package-form-id').value = pkg.id; document.getElementById('package-form-title').textContent = 'Edit Paket'; document.getElementById('package-form-name').value = pkg.name; document.getElementById('package-form-price').value = pkg.price; document.getElementById('package-form-details').value = pkg.details; document.getElementById('cancel-package-edit').classList.remove('hidden'); window.scrollTo(0,0); }
+        async function deletePackage(id) { if (confirm('Yakin hapus paket ini?')) { if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.'); const userId = auth.currentUser.uid; try { await deleteDoc(doc(db, `users/${userId}/packages`, id)); } catch (error) { console.error("Error deleting package: ", error); alert("Gagal menghapus paket."); } } }
 
-        function formatCurrency(number) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number || 0);
-        }
-
-        function getOverallStatus(progress) {
-            if (!progress) return { label: 'N/A', color: 'bg-gray-200' };
-            if (progress.album === 'Sudah Jadi') return { label: 'Selesai', color: 'bg-green-100 text-green-800' };
-            if (progress.pickup === 'Sudah Diambil') return { label: 'Siap Jadi Album', color: 'bg-teal-100 text-teal-800' };
-            if (progress.printStatus === 'Selesai Cetak') return { label: 'Siap Diambil', color: 'bg-cyan-100 text-cyan-800' };
-            if (progress.printStatus === 'Proses Cetak') return { label: 'Proses Cetak', color: 'bg-sky-100 text-sky-800' };
-            if (progress.editing === 'Selesai') return { label: 'Siap Cetak', color: 'bg-indigo-100 text-indigo-800' };
-            if (progress.editing === 'Proses') return { label: 'Editing', color: 'bg-purple-100 text-purple-800' };
-            const eventDate = new Date(this.date);
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            if(eventDate < today) return { label: 'Menunggu Editing', color: 'bg-yellow-100 text-yellow-800' };
-            return { label: 'Dijadwalkan', color: 'bg-blue-100 text-blue-800' };
-        }
-
-        const paymentStatusConfig = {
-            'Belum Bayar': { label: 'Belum Bayar', color: 'bg-red-100 text-red-800' },
-            'DP Masuk': { label: 'DP Masuk', color: 'bg-yellow-100 text-yellow-800' },
-            'Lunas': { label: 'Lunas', color: 'bg-green-100 text-green-800' },
-        };
-
-        // --- RENDER FUNCTIONS ---
-        function renderDashboardSummary() {
-            const summaryContainer = document.getElementById('summary-section');
-            const totalJobs = events.length;
-            const totalRevenue = events.reduce((sum, event) => sum + (event.packageInfo.price || 0), 0);
-            const totalReceivables = events.filter(e => e.paymentStatus !== 'Lunas').reduce((sum, e) => {
-                const price = e.packageInfo.price || 0;
-                return sum + (e.paymentStatus === 'DP Masuk' ? price / 2 : price); // Example logic for DP
-            }, 0);
-            const inProgress = events.filter(e => e.progress && (e.progress.editing === 'Proses' || e.progress.printStatus === 'Proses Cetak')).length;
-            
-            summaryContainer.innerHTML = `
-                <div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Job</p><p class="text-2xl font-bold">${totalJobs}</p></div>
-                <div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">In Progress</p><p class="text-2xl font-bold">${inProgress}</p></div>
-                <div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Piutang</p><p class="text-xl font-bold">${formatCurrency(totalReceivables)}</p></div>
-                <div class="bg-white p-4 rounded-lg shadow"><p class="text-sm text-gray-500">Total Proyek</p><p class="text-xl font-bold">${formatCurrency(totalRevenue)}</p></div>
-            `;
-        }
-
-        function renderEventList() {
-            renderDashboardSummary();
-            eventListContainer.innerHTML = '';
-            if (events.length === 0) {
-                eventListContainer.innerHTML = `<p class="text-center text-gray-500 py-8">Belum ada job. Silakan tambahkan.</p>`;
-                return;
-            }
-
-            const dateCounts = events.reduce((acc, event) => {
-                acc[event.date] = (acc[event.date] || 0) + 1;
-                return acc;
-            }, {});
-
-            events.sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            events.forEach(event => {
-                const status = getOverallStatus.call(event, event.progress);
-                const paymentStatus = paymentStatusConfig[event.paymentStatus] || { label: 'N/A', color: 'bg-gray-200' };
-                
-                let conflictBadge = '';
-                if (dateCounts[event.date] > 1) {
-                    conflictBadge = `<div class="mt-2"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-full">Jadwal Bentrok</span></div>`;
-                }
-
-                const card = document.createElement('div');
-                card.className = 'bg-white p-5 rounded-xl shadow-md';
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="cursor-pointer flex-grow" onclick="showEventDetail('${event.id}')">
-                            <h3 class="font-bold text-lg text-gray-800">${event.name}</h3>
-                            <p class="text-sm text-gray-600">${event.client}</p>
-                            <p class="text-sm font-semibold text-blue-600 mt-2">${event.packageInfo.name} - ${formatCurrency(event.packageInfo.price)}</p>
-                        </div>
-                        <div class="text-right flex-shrink-0 flex flex-col items-end">
-                            <span class="text-sm font-semibold text-gray-700">${formatDateForDisplay(event.date)}</span>
-                            <div class="mt-2"><span class="text-xs font-medium px-2.5 py-1 rounded-full ${status.color}">${status.label}</span></div>
-                            <div class="mt-2"><span class="text-xs font-medium px-2.5 py-1 rounded-full ${paymentStatus.color}">${paymentStatus.label}</span></div>
-                            ${conflictBadge}
-                        </div>
-                    </div>
-                    <div class="flex justify-end space-x-2 border-t pt-3 mt-3">
-                         <button onclick="openForm('${event.id}')" class="text-sm bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded-md">Edit</button>
-                         <button onclick="deleteEvent('${event.id}')" class="text-sm bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md">Hapus</button>
-                    </div>
-                `;
-                eventListContainer.appendChild(card);
-            });
-        }
-
-        function renderEventDetail(event) {
-            let sourceInfo;
-            if (event.jobSource === 'Vendor') {
-                sourceInfo = `Vendor: ${event.vendorInfo.name} (Kontak: ${event.vendorInfo.contact} - ${event.vendorInfo.phone})`;
-            } else {
-                sourceInfo = `Klien Langsung (Kontak: ${event.clientInfo.contact} - ${event.clientInfo.phone})`;
-            }
-            
-            const status = getOverallStatus.call(event, event.progress);
-            const paymentStatus = paymentStatusConfig[event.paymentStatus] || { label: 'N/A', color: 'bg-gray-200' };
-            let teamHtml = Object.entries(event.pic).map(([role, name]) => name ? `<li class="capitalize"><strong>${role}:</strong> ${name}</li>` : '').join('');
-
-            detailContentWrapper.innerHTML = `
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-1">${event.name}</h2>
-                        <p class="text-gray-600 mb-2">Klien: ${event.client}</p>
-                    </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <span class="text-xs font-medium px-2.5 py-1 rounded-full ${status.color}">${status.label}</span>
-                        <span class="text-xs font-medium px-2.5 py-1 rounded-full ${paymentStatus.color}">${paymentStatus.label}</span>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-500 mb-6">Lokasi: ${event.location}</p>
-
-                <div class="bg-blue-50 p-4 rounded-lg mb-6">
-                    <h4 class="font-semibold text-blue-800">Paket: ${event.packageInfo.name}</h4>
-                    <p class="font-bold text-xl text-blue-900">${formatCurrency(event.packageInfo.price)}</p>
-                    <p class="text-sm text-blue-700 mt-1">${event.packageInfo.details}</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div><h4 class="font-semibold mb-2">Kontak</h4><p class="text-sm">${sourceInfo}</p></div>
-                    <div><h4 class="font-semibold mb-2">Tim Bertugas</h4><ul class="list-disc list-inside text-sm space-y-1">${teamHtml}</ul></div>
-                    <div><h4 class="font-semibold mb-2">Progres Pekerjaan</h4><ul class="list-disc list-inside text-sm space-y-1"><li><strong>Editing:</strong> ${event.progress.editing}</li><li><strong>Cetak:</strong> ${event.progress.printStatus} (di ${event.progress.printStudio || 'N/A'})</li><li><strong>Pengambilan:</strong> ${event.progress.pickup}</li><li><strong>Album Final:</strong> ${event.progress.album}</li></ul></div>
-                </div>
-            `;
-        }
-        
-        // --- FORM & DATA HANDLING ---
-        function populatePackageDropdown() {
-            packageSelect.innerHTML = '<option value="custom">-- Paket Custom --</option>';
-            packages.forEach(pkg => {
-                const option = document.createElement('option');
-                option.value = pkg.id;
-                option.textContent = `${pkg.name} (${formatCurrency(pkg.price)})`;
-                packageSelect.appendChild(option);
-            });
-        }
-
-        function openForm(eventId = null) {
-            eventForm.reset();
-            populatePackageDropdown();
-            document.querySelectorAll('#event-form details').forEach(detail => detail.removeAttribute('open'));
-
-            if (eventId) {
-                const event = events.find(e => e.id === eventId);
-                document.getElementById('form-title').textContent = 'Edit Job';
-                document.getElementById('form-event-id').value = event.id;
-                
-                const predefinedEventTypes = Array.from(eventTypeSelect.options).map(opt => opt.value);
-                if (predefinedEventTypes.includes(event.name)) {
-                    eventTypeSelect.value = event.name;
-                    customEventNameInput.value = '';
-                } else {
-                    eventTypeSelect.value = 'Lainnya';
-                    customEventNameInput.value = event.name;
-                }
-                eventTypeSelect.dispatchEvent(new Event('change'));
-
-                document.getElementById('form-event-client').value = event.client;
-                document.getElementById('form-event-date').value = event.date;
-                document.getElementById('form-event-location').value = event.location;
-                document.getElementById('form-payment-status').value = event.paymentStatus;
-                
-                const existingPackage = packages.find(p => p.name === event.packageInfo.name && p.price === event.packageInfo.price);
-                packageSelect.value = existingPackage ? existingPackage.id : 'custom';
-                packageSelect.dispatchEvent(new Event('change'));
-                document.getElementById('form-package-name').value = event.packageInfo.name;
-                document.getElementById('form-package-price').value = event.packageInfo.price;
-                document.getElementById('form-package-details').value = event.packageInfo.details;
-                
-                document.getElementById('form-job-source').value = event.jobSource;
-                document.getElementById('form-vendor-name').value = event.vendorInfo?.name || '';
-                document.getElementById('form-vendor-contact').value = event.vendorInfo?.contact || '';
-                document.getElementById('form-vendor-phone').value = event.vendorInfo?.phone || '';
-                document.getElementById('form-client-contact').value = event.clientInfo?.contact || '';
-                document.getElementById('form-client-phone').value = event.clientInfo?.phone || '';
-                
-                for (const role in event.pic) document.getElementById(`form-pic-${role}`).value = event.pic[role];
-                for (const key in event.progress) document.getElementById(`form-progress-${key}`).value = event.progress[key];
-            } else {
-                document.getElementById('form-title').textContent = 'Tambah Job Baru';
-                document.getElementById('form-event-id').value = '';
-                packageSelect.dispatchEvent(new Event('change'));
-                eventTypeSelect.dispatchEvent(new Event('change'));
-            }
-            jobSourceSelect.dispatchEvent(new Event('change'));
-            switchView('form');
-        }
-
-        async function saveEvent(e) {
-            e.preventDefault();
-            if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid. Data tidak dapat disimpan.');
-            const userId = auth.currentUser.uid;
-
-            const id = document.getElementById('form-event-id').value;
-            let eventName = eventTypeSelect.value;
-            if (eventName === 'Lainnya') eventName = customEventNameInput.value.trim();
-
-            const newEventData = {
-                name: eventName,
-                client: document.getElementById('form-event-client').value,
-                date: document.getElementById('form-event-date').value,
-                location: document.getElementById('form-event-location').value,
-                paymentStatus: document.getElementById('form-payment-status').value,
-                packageInfo: {
-                    name: document.getElementById('form-package-name').value,
-                    price: parseInt(document.getElementById('form-package-price').value),
-                    details: document.getElementById('form-package-details').value
-                },
-                jobSource: document.getElementById('form-job-source').value,
-                vendorInfo: {
-                    name: document.getElementById('form-vendor-name').value,
-                    contact: document.getElementById('form-vendor-contact').value,
-                    phone: document.getElementById('form-vendor-phone').value
-                },
-                clientInfo: {
-                    contact: document.getElementById('form-client-contact').value,
-                    phone: document.getElementById('form-client-phone').value
-                },
-                pic: {
-                    fotografer: document.getElementById('form-pic-fotografer').value,
-                    asisten: document.getElementById('form-pic-asisten').value,
-                    videografer: document.getElementById('form-pic-videografer').value,
-                    cinematografer: document.getElementById('form-pic-cinematografer').value,
-                    editor: document.getElementById('form-pic-editor').value
-                },
-                progress: {
-                    editing: document.getElementById('form-progress-editing').value,
-                    printStatus: document.getElementById('form-progress-printStatus').value,
-                    printStudio: document.getElementById('form-progress-printStudio').value,
-                    pickup: document.getElementById('form-progress-pickup').value,
-                    album: document.getElementById('form-progress-album').value
-                }
-            };
-
-            try {
-                if (id) {
-                    await updateDoc(doc(db, `users/${userId}/events`, id), newEventData);
-                } else {
-                    await addDoc(collection(db, `users/${userId}/events`), newEventData);
-                }
-                switchView('list');
-            } catch (error) {
-                console.error("Error saving event: ", error);
-                alert("Gagal menyimpan data. Silakan coba lagi.");
-            }
-        }
-        
-        async function deleteEvent(eventId) {
-            if (confirm('Apakah Anda yakin ingin menghapus job ini?')) {
-                if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.');
-                const userId = auth.currentUser.uid;
-                try {
-                    await deleteDoc(doc(db, `users/${userId}/events`, eventId));
-                } catch (error) {
-                    console.error("Error deleting event: ", error);
-                    alert("Gagal menghapus data.");
-                }
-            }
-        }
-        
-        function showEventDetail(eventId) {
-            const event = events.find(e => e.id === eventId);
-            if (!event) return;
-            renderEventDetail(event);
-            switchView('detail');
-        }
-
-        // --- PACKAGE MANAGEMENT FUNCTIONS ---
-        function renderPackageList() {
-            packageListContainer.innerHTML = '';
-            packages.forEach(pkg => {
-                const item = document.createElement('div');
-                item.className = 'bg-gray-50 p-4 rounded-lg flex justify-between items-center';
-                item.innerHTML = `
-                    <div>
-                        <p class="font-semibold">${pkg.name} - ${formatCurrency(pkg.price)}</p>
-                        <p class="text-sm text-gray-600">${pkg.details}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="editPackage('${pkg.id}')" class="text-sm bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1 px-3 rounded-md">Edit</button>
-                        <button onclick="deletePackage('${pkg.id}')" class="text-sm bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md">Hapus</button>
-                    </div>
-                `;
-                packageListContainer.appendChild(item);
-            });
-        }
-
-        async function savePackage(e) {
-            e.preventDefault();
-            if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.');
-            const userId = auth.currentUser.uid;
-            const id = document.getElementById('package-form-id').value;
-            const newPackageData = {
-                name: document.getElementById('package-form-name').value,
-                price: parseInt(document.getElementById('package-form-price').value),
-                details: document.getElementById('package-form-details').value
-            };
-            try {
-                if (id) {
-                    await updateDoc(doc(db, `users/${userId}/packages`, id), newPackageData);
-                } else {
-                    await addDoc(collection(db, `users/${userId}/packages`), newPackageData);
-                }
-                packageForm.reset();
-                document.getElementById('package-form-title').textContent = 'Tambah Paket Baru';
-                document.getElementById('cancel-package-edit').classList.add('hidden');
-            } catch (error) {
-                console.error("Error saving package: ", error);
-                alert("Gagal menyimpan paket.");
-            }
-        }
-        
-        function editPackage(id) {
-            const pkg = packages.find(p => p.id === id);
-            document.getElementById('package-form-id').value = pkg.id;
-            document.getElementById('package-form-title').textContent = 'Edit Paket';
-            document.getElementById('package-form-name').value = pkg.name;
-            document.getElementById('package-form-price').value = pkg.price;
-            document.getElementById('package-form-details').value = pkg.details;
-            document.getElementById('cancel-package-edit').classList.remove('hidden');
-            window.scrollTo(0,0);
-        }
-
-        async function deletePackage(id) {
-            if (confirm('Yakin ingin menghapus paket ini?')) {
-                if (!isFirebaseInitialized || !auth.currentUser) return alert('Koneksi database tidak valid.');
-                const userId = auth.currentUser.uid;
-                try {
-                    await deleteDoc(doc(db, `users/${userId}/packages`, id));
-                } catch (error) {
-                    console.error("Error deleting package: ", error);
-                    alert("Gagal menghapus paket.");
-                }
-            }
-        }
-
-        // --- GLOBAL ASSIGNMENTS & EVENT LISTENERS ---
-        window.openForm = openForm;
-        window.showEventDetail = showEventDetail;
-        window.deleteEvent = deleteEvent;
-        window.editPackage = editPackage;
-        window.deletePackage = deletePackage;
-
+        window.openForm = openForm; window.showEventDetail = showEventDetail; window.deleteEvent = deleteEvent; window.editPackage = editPackage; window.deletePackage = deletePackage;
         document.getElementById('add-new-event-button').addEventListener('click', () => openForm());
         document.getElementById('back-to-list-button').addEventListener('click', () => switchView('list'));
         document.getElementById('cancel-form-button').addEventListener('click', () => switchView('list'));
         eventForm.addEventListener('submit', saveEvent);
-        jobSourceSelect.addEventListener('change', (e) => {
-            vendorFieldsWrapper.classList.toggle('hidden', e.target.value !== 'Vendor');
-            clientFieldsWrapper.classList.toggle('hidden', e.target.value !== 'Klien Langsung');
-        });
-        packageSelect.addEventListener('change', (e) => {
-            const nameField = document.getElementById('form-package-name');
-            const priceField = document.getElementById('form-package-price');
-            const detailsField = document.getElementById('form-package-details');
-            if (e.target.value === 'custom') {
-                nameField.value = 'Custom';
-                priceField.value = '';
-                detailsField.value = '';
-                [nameField, priceField, detailsField].forEach(f => f.readOnly = false);
-            } else {
-                const selectedPackage = packages.find(p => p.id == e.target.value);
-                nameField.value = selectedPackage.name;
-                priceField.value = selectedPackage.price;
-                detailsField.value = selectedPackage.details;
-                [nameField, priceField, detailsField].forEach(f => f.readOnly = true);
-            }
-        });
-        eventTypeSelect.addEventListener('change', (e) => {
-            customEventNameWrapper.classList.toggle('hidden', e.target.value !== 'Lainnya');
-        });
+        jobSourceSelect.addEventListener('change', (e) => { vendorFieldsWrapper.classList.toggle('hidden', e.target.value !== 'Vendor'); clientFieldsWrapper.classList.toggle('hidden', e.target.value !== 'Klien Langsung'); });
+        packageSelect.addEventListener('change', (e) => { const nameField = document.getElementById('form-package-name'); const priceField = document.getElementById('form-package-price'); const detailsField = document.getElementById('form-package-details'); if (e.target.value === 'custom') { nameField.value = 'Custom'; priceField.value = ''; detailsField.value = ''; [nameField, priceField, detailsField].forEach(f => f.readOnly = false); } else { const selectedPackage = packages.find(p => p.id == e.target.value); nameField.value = selectedPackage.name; priceField.value = selectedPackage.price; detailsField.value = selectedPackage.details; [nameField, priceField, detailsField].forEach(f => f.readOnly = true); } });
+        eventTypeSelect.addEventListener('change', (e) => { customEventNameWrapper.classList.toggle('hidden', e.target.value !== 'Lainnya'); });
         document.getElementById('manage-packages-button').addEventListener('click', () => switchView('packages'));
         document.getElementById('back-to-dashboard-from-packages').addEventListener('click', () => switchView('list'));
         packageForm.addEventListener('submit', savePackage);
-        document.getElementById('cancel-package-edit').addEventListener('click', () => {
-            packageForm.reset();
-            document.getElementById('package-form-title').textContent = 'Tambah Paket Baru';
-            document.getElementById('cancel-package-edit').classList.add('hidden');
-        });
+        document.getElementById('cancel-package-edit').addEventListener('click', () => { packageForm.reset(); document.getElementById('package-form-title').textContent = 'Tambah Paket Baru'; document.getElementById('cancel-package-edit').classList.add('hidden'); });
 
     </script>
 </body>
